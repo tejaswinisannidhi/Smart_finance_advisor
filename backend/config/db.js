@@ -1,17 +1,15 @@
-// ============================================================
-// config/db.js - MongoDB Connection Config
-// ============================================================
-
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      // These options are defaults in Mongoose 8+ but kept for clarity
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+      family: 4,
     });
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error(`❌ MongoDB Error: ${error.message}`);
+    console.error(`❌ MongoDB connection failed: ${error.message}`);
     process.exit(1);
   }
 };
